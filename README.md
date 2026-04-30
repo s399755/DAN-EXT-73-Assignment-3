@@ -6,3 +6,8 @@ DAN/EXT 73
 
 ## Group Member
 Patrick Burzynski - 399755
+
+## Assignment 3
+This program creates a desktop application using Tkinter and OpenCV. It allows the user to load an image, generates random differences, and lets the user find those differences by clicking on the image.
+
+Update 1 - Initial setup of program structure. Created basic Tkinter window with title, size and main loop.
