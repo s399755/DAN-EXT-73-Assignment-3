@@ -13,3 +13,5 @@ This program creates a desktop application using Tkinter and OpenCV. It allows t
 Update 1 - Initial setup of program structure. Created basic Tkinter window with title, size and main loop.
 
 Update 2 - Added basic GUI components including label, buttons and canvas layout.
+
+Update 3 - Converted GUI into a class structure using GameApp to begin applying object-oriented programming.
