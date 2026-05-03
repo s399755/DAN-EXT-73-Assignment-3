@@ -33,6 +33,12 @@ class GameApp:
        self.canvas = tk.Canvas(root, width=400, height=400, bg="grey")
        self.anvas.pack()   
 
+#Load image
+def load_image(self):
+    print("Load button clicked")
+
+self.btn_load = tk.Button(root,text="Load Image", command=self.load_image)   
+
 # run program
 root = tk.Tk()
 app = GameApp(root)
