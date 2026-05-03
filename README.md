@@ -19,3 +19,5 @@ Update 3 - Converted GUI into a class structure using GameApp to begin applying 
 Update 4 - Connected load image button to a function. Currently prints a message when clicked.
 
 Update 5 - Implemented file selection using file dialog for image loading.
+
+Update 6 - Added ImageProcessor class to handle image loading using OpenCV. Basic image loading connected to GUI button and tested successfully.
