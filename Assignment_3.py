@@ -61,7 +61,7 @@ def load_image(self):
     print(file_path)
 
     if file_path:
-        self.processor.load_image(file_path)
+        success = self.processor.load_image(file_path)
 
         if success:
             print("Image loaded successfully")
