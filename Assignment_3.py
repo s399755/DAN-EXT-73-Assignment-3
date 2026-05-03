@@ -9,6 +9,8 @@ It allows the user to load an image, generates random differences,
 and lets the user find those differences by clicking on the image."""
 
 import tkinter as tk
+from tkinter import filedialog 
+
 #Main Class
 class GameApp:
    def __init__(self, root):
@@ -35,7 +37,8 @@ class GameApp:
 
 #Load image
 def load_image(self):
-    print("Load button clicked")
+    file_path = filedialog.askopenfilename()
+    print(file_path)
 
 self.btn_load = tk.Button(root,text="Load Image", command=self.load_image)   
 
