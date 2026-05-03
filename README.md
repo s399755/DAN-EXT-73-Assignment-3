@@ -17,3 +17,5 @@ Update 2 - Added basic GUI components including label, buttons and canvas layout
 Update 3 - Converted GUI into a class structure using GameApp to begin applying object-oriented programming.
 
 Update 4 - Connected load image button to a function. Currently prints a message when clicked.
+
+Update 5 - Implemented file selection using file dialog for image loading.
