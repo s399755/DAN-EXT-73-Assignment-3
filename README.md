@@ -24,3 +24,5 @@ Update 6 - Added ImageProcessor class to handle image loading using OpenCV. Basi
 
 Update 7 - Corrected image loading structure and implemented random difference generation. 
 Differences are currently shown as visible markers for testing.
+
+Update 8 - Added image display functionality using Tkinter canvas, PIL image conversion, and OpenCV RGB conversion.
