@@ -30,7 +30,7 @@ class ImageProcessor:
 
         self.modified_image = self.original_image.copy()
         print("Image copied for modification")
-        return True      
+        return True
 
     # Generate differences
     def generate_differences(self):
@@ -54,6 +54,11 @@ class GameApp:
     def __init__(self, root):
         self.root = root
         self.processor = ImageProcessor()
+
+        # game state tracking (UPDATE 10B)
+        self.found_differences = []
+        self.mistakes = 0
+        self.remaining = 5
       
         # window setup
         self.root.title("Find the Differences")
@@ -118,14 +123,20 @@ class GameApp:
         click_y = event.y
 
         print("Clicked:", click_x, click_y)
+        hit = False
 
         for dx, dy in self.processor.differences:
 
             if abs(click_x - dx) < 20 and abs(click_y - dy) < 20:
-                print("Hit detected")
-                return
 
-        print("Miss")
+                if (dx, dy) not in self.found_differences:
+                    self.found_differences.append((dx, dy))
+                    self.remaining -= 1
+                    hit = True
+                break
+
+        if not hit:
+            self.mistakes += 1
 
 # run program
 root = tk.Tk()
