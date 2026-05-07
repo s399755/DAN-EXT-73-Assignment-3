@@ -26,3 +26,5 @@ Update 7 - Corrected image loading structure and implemented random difference g
 Differences are currently shown as visible markers for testing.
 
 Update 8 - Added image display functionality using Tkinter canvas, PIL image conversion, and OpenCV RGB conversion.
+
+Update 9 - Part A - Refactored GUI layout by introducing a Tkinter frame and separating image display into two canvases for original and modified images.
