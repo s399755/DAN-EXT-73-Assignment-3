@@ -12,6 +12,7 @@ import tkinter as tk
 from tkinter import filedialog 
 import cv2
 import random
+from PIL import Image, ImageTk
 
 
 # image processor 
@@ -49,7 +50,6 @@ class ImageProcessor:
 
         print("Differences:", self.differences)
     
-
 # Main Class
 class GameApp:
     def __init__(self, root):
@@ -86,13 +86,36 @@ class GameApp:
 
             if success:
                 self.processor.generate_differences()
+                self.display_image()
                 print("Image loaded and differences generated")
+    
+    def display_image(self):
 
+        image = self.processor.modified_image
+
+        # convert BGR to RGB
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+ 
+        # convert to PIL format
+        image = Image.fromarray(image)
+
+        # resize image
+        image = image.resize((400, 400))
+
+        # convert for tkinter
+        self.tk_image = ImageTk.PhotoImage(image)
+
+        # display image
+        self.canvas.create_image(
+            0,
+            0,
+            anchor="nw",
+            image=self.tk_image
+        )
 
 # run program
 root = tk.Tk()
 app = GameApp(root)
 root.mainloop()
-
 
 
