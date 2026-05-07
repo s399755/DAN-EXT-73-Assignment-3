@@ -14,7 +14,6 @@ import cv2
 import random
 from PIL import Image, ImageTk
 
-
 # image processor 
 class ImageProcessor:
     def __init__(self):
@@ -36,20 +35,17 @@ class ImageProcessor:
     # Generate differences
     def generate_differences(self):
         self.differences = []
-
         height, width, _ = self.modified_image.shape
-
+       
         for i in range(5):
             x = random.randint(50, width - 50)
             y = random.randint(50, height - 50)
-
             self.differences.append((x, y))
-
+           
             # draw visible difference (temporary)
             cv2.circle(self.modified_image, (x, y), 20, (0, 0, 255), -1)
+        print("Differences:", self.differences)    
 
-        print("Differences:", self.differences)
-    
 # Main Class
 class GameApp:
     def __init__(self, root):
@@ -71,13 +67,19 @@ class GameApp:
         self.btn_reveal = tk.Button(root, text="Reveal Differences")
         self.btn_reveal.pack()
 
-        # Canvas
-        self.canvas = tk.Canvas(root, width=400, height=400, bg="grey")
-        self.canvas.pack()
+        # image frame
+        self.frame_images = tk.Frame(root)
+        self.frame_images.pack()
 
+        self.canvas_original = tk.Canvas(self.frame_images, width=400, height=400, bg="grey")
+        self.canvas_original.pack(side="left", padx=10)
+
+        self.canvas_modified = tk.Canvas(self.frame_images, width=400, height=400, bg="grey")
+        self.canvas_modified.pack(side="right", padx=10)
 
     # Load image 
     def load_image(self):
+        
         file_path = filedialog.askopenfilename()
         print(file_path)
 
@@ -90,21 +92,15 @@ class GameApp:
                 print("Image loaded and differences generated")
     
     def display_image(self):
-
         image = self.processor.modified_image
-
         # convert BGR to RGB
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
- 
         # convert to PIL format
         image = Image.fromarray(image)
-
         # resize image
         image = image.resize((400, 400))
-
         # convert for tkinter
         self.tk_image = ImageTk.PhotoImage(image)
-
         # display image
         self.canvas.create_image(
             0,
