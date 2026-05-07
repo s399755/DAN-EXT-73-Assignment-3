@@ -28,3 +28,4 @@ Differences are currently shown as visible markers for testing.
 Update 8 - Added image display functionality using Tkinter canvas, PIL image conversion, and OpenCV RGB conversion.
 
 Update 9 - Part A - Refactored GUI layout by introducing a Tkinter frame and separating image display into two canvases for original and modified images.
+Part B - Updated display function to render processed images using OpenCV BGR to RGB conversion and PIL format for Tkinter canvas display.
