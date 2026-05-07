@@ -79,6 +79,9 @@ class GameApp:
 
         self.canvas_modified = tk.Canvas(self.frame_images, width=400, height=400, bg="grey")
         self.canvas_modified.pack(side="right", padx=10)
+        
+        # click detection
+        self.canvas_modified.bind("<Button-1>", self.check_difference) 
 
     # Load image 
     def load_image(self):
@@ -108,6 +111,21 @@ class GameApp:
             anchor="nw",
             image=self.tk_modified
         )
+    
+    def check_difference(self, event):
+
+        click_x = event.x
+        click_y = event.y
+
+        print("Clicked:", click_x, click_y)
+
+        for dx, dy in self.processor.differences:
+
+            if abs(click_x - dx) < 20 and abs(click_y - dy) < 20:
+                print("Hit detected")
+                return
+
+        print("Miss")
 
 # run program
 root = tk.Tk()
