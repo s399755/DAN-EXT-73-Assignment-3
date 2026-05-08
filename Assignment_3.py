@@ -55,7 +55,7 @@ class GameApp:
         self.root = root
         self.processor = ImageProcessor()
 
-        # game state tracking (UPDATE 10B)
+        # game state tracking
         self.found_differences = []
         self.mistakes = 0
         self.remaining = 5
@@ -67,6 +67,13 @@ class GameApp:
         # Label
         self.label_info = tk.Label(root, text="Load an image to start")
         self.label_info.pack()
+        
+        # score labels
+        self.label_remaining = tk.Label(root, text="Remaining: 5")
+        self.label_remaining.pack()
+
+        self.label_mistakes = tk.Label(root, text="Mistakes: 0 / 3")
+        self.label_mistakes.pack()
 
         # Buttons
         self.btn_load = tk.Button(root, text="Load Image", command=self.load_image)
@@ -98,6 +105,20 @@ class GameApp:
             success = self.processor.load_image(file_path)
 
             if success:
+                
+                # reset game state
+                self.found_differences = []
+                self.mistakes = 0
+                self.remaining = 5
+
+                self.label_remaining.config(
+                    text="Remaining: 5"
+                )
+
+                self.label_mistakes.config(
+                    text="Mistakes: 0 / 3"
+                )
+                
                 self.processor.generate_differences()
                 self.display_image()
                 print("Image loaded and differences generated")
@@ -123,6 +144,7 @@ class GameApp:
         click_y = event.y
 
         print("Clicked:", click_x, click_y)
+
         hit = False
 
         for dx, dy in self.processor.differences:
@@ -132,15 +154,22 @@ class GameApp:
                 if (dx, dy) not in self.found_differences:
                     self.found_differences.append((dx, dy))
                     self.remaining -= 1
-                    hit = True
-                break
 
+                    self.label_remaining.config(
+                        text=f"Remaining: {self.remaining}"
+                    )
+
+                    hit = True
+                    
+                break
+            
         if not hit:
             self.mistakes += 1
+            self.label_mistakes.config(
+                text=f"Mistakes: {self.mistakes} / 3"
+            )
 
 # run program
 root = tk.Tk()
 app = GameApp(root)
 root.mainloop()
-
-
