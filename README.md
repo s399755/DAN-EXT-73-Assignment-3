@@ -42,3 +42,6 @@ Update 9
 Update 10 
 - Added mouse click event handling on the modified image canvas and implemented basic coordinate proximity detection for identifying difference regions.
 - Added game state tracking and click detection logic implemented.
+
+Update 11 
+- Added remaining difference and mistake counters with live GUI updates and game state reset functionality.
