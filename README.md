@@ -45,3 +45,6 @@ Update 10
 
 Update 11 
 - Added remaining difference and mistake counters with live GUI updates and game state reset functionality.
+
+Update 12 
+- Added mistake limit, game over popup, and disabled clicks after 3 incorrect guesses.
