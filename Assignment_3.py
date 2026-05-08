@@ -9,7 +9,7 @@ It allows the user to load an image, generates random differences,
 and lets the user find those differences by clicking on the image."""
 
 import tkinter as tk
-from tkinter import filedialog 
+from tkinter import filedialog, messagebox
 import cv2
 import random
 from PIL import Image, ImageTk
@@ -121,6 +121,8 @@ class GameApp:
                 
                 self.processor.generate_differences()
                 self.display_image()
+                # re-enable clicking for new game
+                self.canvas_modified.bind("<Button-1>", self.check_difference)
                 print("Image loaded and differences generated")
     
     def display_image(self):
@@ -168,6 +170,18 @@ class GameApp:
             self.label_mistakes.config(
                 text=f"Mistakes: {self.mistakes} / 3"
             )
+            
+            print("Wrong guess")
+
+            if self.mistakes >= 3:
+
+                messagebox.showinfo(
+                    "Game Over",
+                    "Too many mistakes! Load a new image to try again."
+                )
+
+                # disable further clicks
+                self.canvas_modified.unbind("<Button-1>")
 
 # run program
 root = tk.Tk()
