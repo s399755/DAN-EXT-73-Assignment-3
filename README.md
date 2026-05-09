@@ -51,3 +51,6 @@ Update 12
 
 Update 13 
 - Added win condition detection and completion message when all differences are found.
+
+Update 14 
+- Added side by side image display and corrected click detection scaling.
