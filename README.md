@@ -48,3 +48,6 @@ Update 11
 
 Update 12 
 - Added mistake limit, game over popup, and disabled clicks after 3 incorrect guesses.
+
+Update 13 
+- Added win condition detection and completion message when all differences are found.
