@@ -127,23 +127,56 @@ class GameApp:
     
     def display_image(self):
 
-        image = self.processor.modified_image
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(image)
-        image = image.resize((400, 400))
-        
-        self.tk_modified = ImageTk.PhotoImage(image)
+        # original image
+        original = self.processor.original_image
 
+        # modified image
+        modified = self.processor.modified_image
+
+        # convert BGR to RGB
+        original = cv2.cvtColor(original, cv2.COLOR_BGR2RGB)
+        modified = cv2.cvtColor(modified, cv2.COLOR_BGR2RGB)
+
+        # convert to PIL format
+        original = Image.fromarray(original)
+        modified = Image.fromarray(modified)
+
+        # resize images
+        original = original.resize((400, 400))
+        modified = modified.resize((400, 400))
+
+        # convert for tkinter
+        self.tk_original = ImageTk.PhotoImage(original)
+        self.tk_modified = ImageTk.PhotoImage(modified)
+
+        # clear old images
+        self.canvas_original.delete("all")
+        self.canvas_modified.delete("all")
+
+        # display original image
+        self.canvas_original.create_image(
+            0,
+            0,
+            anchor="nw",
+            image=self.tk_original
+        )
+
+        # display modified image
         self.canvas_modified.create_image(
-            0, 0,
+            0,
+            0,
             anchor="nw",
             image=self.tk_modified
         )
     
     def check_difference(self, event):
 
-        click_x = event.x
-        click_y = event.y
+        # scale click position back to original image size
+        image_width = self.processor.original_image.shape[1]
+        image_height = self.processor.original_image.shape[0]
+
+        click_x = int(event.x * image_width / 400)
+        click_y = int(event.y * image_height / 400)
 
         print("Clicked:", click_x, click_y)
 
