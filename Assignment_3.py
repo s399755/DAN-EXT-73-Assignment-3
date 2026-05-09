@@ -163,6 +163,15 @@ class GameApp:
 
                     hit = True
                     
+                    if self.remaining == 0:
+
+                        messagebox.showinfo(
+                            "You Win",
+                            "All differences found!"
+                        )
+
+                        # disable further clicks
+                        self.canvas_modified.unbind("<Button-1>")
                 break
             
         if not hit:
