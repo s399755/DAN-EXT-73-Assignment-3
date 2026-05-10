@@ -54,3 +54,6 @@ Update 13
 
 Update 14 
 - Added side by side image display and corrected click detection scaling.
+
+Update 15 
+- Added permanent visual markers on both images when differences are found.
