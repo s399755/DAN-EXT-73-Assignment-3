@@ -57,3 +57,6 @@ Update 14
 
 Update 15 
 - Added permanent visual markers on both images when differences are found.
+
+Update 16
+- Implemented functional Reveal Differences button. The game now reveals all remaining differences, refreshes both images, and disables further gameplay after reveal.
