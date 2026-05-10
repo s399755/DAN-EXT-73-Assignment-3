@@ -54,6 +54,7 @@ class GameApp:
     def __init__(self, root):
         self.root = root
         self.processor = ImageProcessor()
+        self.found_marks = []
 
         # game state tracking
         self.found_differences = []
@@ -169,6 +170,11 @@ class GameApp:
             image=self.tk_modified
         )
     
+    def draw_found_circle(self, x, y):
+        cv2.circle(self.processor.original_image, (x, y), 25, (0, 255, 0), 3)
+        cv2.circle(self.processor.modified_image, (x, y), 25, (0, 255, 0), 3)
+
+    
     def check_difference(self, event):
 
         # scale click position back to original image size
@@ -189,6 +195,12 @@ class GameApp:
                 if (dx, dy) not in self.found_differences:
                     self.found_differences.append((dx, dy))
                     self.remaining -= 1
+
+                    # draw permanent visual marker
+                    self.draw_found_circle(dx, dy)
+
+                    # refresh images
+                    self.display_image()
 
                     self.label_remaining.config(
                         text=f"Remaining: {self.remaining}"
