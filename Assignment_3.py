@@ -80,7 +80,12 @@ class GameApp:
         self.btn_load = tk.Button(root, text="Load Image", command=self.load_image)
         self.btn_load.pack()
 
-        self.btn_reveal = tk.Button(root, text="Reveal Differences")
+        self.btn_reveal = tk.Button(
+            root,
+            text="Reveal Differences",
+            command=self.reveal_differences
+        )
+        
         self.btn_reveal.pack()
 
         # image frame
@@ -170,10 +175,24 @@ class GameApp:
             image=self.tk_modified
         )
     
-    def draw_found_circle(self, x, y):
+    def draw_found_circle(self, x, y):     
         cv2.circle(self.processor.original_image, (x, y), 25, (0, 255, 0), 3)
         cv2.circle(self.processor.modified_image, (x, y), 25, (0, 255, 0), 3)
+        
+    def reveal_differences(self):
 
+        for dx, dy in self.processor.differences:
+            self.draw_found_circle(dx, dy)
+
+        self.display_image()
+
+        # disable further clicks
+        self.canvas_modified.unbind("<Button-1>")
+
+        messagebox.showinfo(
+            "Reveal Differences",
+            "All differences have been revealed."
+    )  
     
     def check_difference(self, event):
 
