@@ -63,3 +63,6 @@ Update 16
 
 Update 17 
 - Replaced temporary red circle markers with three OpenCV alteration types: colour patch, blur patch and invert patch.
+
+Update 18 
+- Added overlap checking to prevent generated difference regions from being placed too close together.
