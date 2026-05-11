@@ -60,3 +60,6 @@ Update 15
 
 Update 16
 - Implemented functional Reveal Differences button. The game now reveals all remaining differences, refreshes both images, and disables further gameplay after reveal.
+
+Update 17 
+- Replaced temporary red circle markers with three OpenCV alteration types: colour patch, blur patch and invert patch.
