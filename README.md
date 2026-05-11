@@ -66,3 +66,6 @@ Update 17
 
 Update 18 
 - Added overlap checking to prevent generated difference regions from being placed too close together.
+
+Update 19
+- Updated visual markers so found differences show red circles and revealed differences show blue circles, with remaining counter updated after reveal.
