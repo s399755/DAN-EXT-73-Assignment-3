@@ -234,14 +234,28 @@ class GameApp:
             image=self.tk_modified
         )
     
-    def draw_found_circle(self, x, y):     
-        cv2.circle(self.processor.original_image, (x, y), 25, (0, 255, 0), 3)
-        cv2.circle(self.processor.modified_image, (x, y), 25, (0, 255, 0), 3)
-        
+    def draw_found_circle(self, x, y):
+        # red circle for found differences
+        cv2.circle(self.processor.original_image, (x, y), 25, (0, 0, 255), 3)
+        cv2.circle(self.processor.modified_image, (x, y), 25, (0, 0, 255), 3)
+     
+    def draw_reveal_circle(self, x, y):
+        # blue circle for revealed differences
+        cv2.circle(self.processor.original_image, (x, y), 25, (255, 0, 0), 3)
+        cv2.circle(self.processor.modified_image, (x, y), 25, (255, 0, 0), 3)   
+
     def reveal_differences(self):
 
         for dx, dy in self.processor.differences:
-            self.draw_found_circle(dx, dy)
+
+            if (dx, dy) not in self.found_differences:
+                self.draw_reveal_circle(dx, dy)
+
+        self.remaining = 0
+
+        self.label_remaining.config(
+            text="Remaining: 0"
+        )
 
         self.display_image()
 
@@ -250,8 +264,8 @@ class GameApp:
 
         messagebox.showinfo(
             "Reveal Differences",
-            "All differences have been revealed."
-    )  
+            "All remaining differences have been revealed."
+        )
     
     def check_difference(self, event):
 
