@@ -32,29 +32,73 @@ class ImageProcessor:
         print("Image copied for modification")
         return True
 
+    def get_region(self, x, y, size):
+        height, width, _ = self.modified_image.shape
+
+        x1 = max(0, x - size)
+        x2 = min(width, x + size)
+
+        y1 = max(0, y - size)
+        y2 = min(height, y + size)
+
+        return x1, y1, x2, y2
+
+    def add_colour_patch(self, x, y, size):
+        x1, y1, x2, y2 = self.get_region(x, y, size)
+
+        # yellow patch in BGR format
+        self.modified_image[y1:y2, x1:x2] = (0, 255, 255)
+
+    def add_blur_patch(self, x, y, size):
+        x1, y1, x2, y2 = self.get_region(x, y, size)
+
+        area = self.modified_image[y1:y2, x1:x2]
+
+        if area.size > 0:
+            blurred_area = cv2.GaussianBlur(area, (21, 21), 0)
+            self.modified_image[y1:y2, x1:x2] = blurred_area
+
+    def add_invert_patch(self, x, y, size):
+        x1, y1, x2, y2 = self.get_region(x, y, size)
+
+        area = self.modified_image[y1:y2, x1:x2]
+
+        if area.size > 0:
+            self.modified_image[y1:y2, x1:x2] = 255 - area
+
     # Generate differences
     def generate_differences(self):
         self.differences = []
 
         height, width, _ = self.modified_image.shape
 
+        size = 20
+        alteration_types = ["colour", "blur", "invert"]
+
         for i in range(5):
-            x = random.randint(50, width - 50)
-            y = random.randint(50, height - 50)
+            x = random.randint(size, width - size)
+            y = random.randint(size, height - size)
 
             self.differences.append((x, y))
 
-            # draw visible difference (temporary)
-            cv2.circle(self.modified_image, (x, y), 20, (0, 0, 255), -1)
+            alteration = random.choice(alteration_types)
 
-        print("Differences:", self.differences)    
+            if alteration == "colour":
+                self.add_colour_patch(x, y, size)
+
+            elif alteration == "blur":
+                self.add_blur_patch(x, y, size)
+
+            elif alteration == "invert":
+                self.add_invert_patch(x, y, size)
+
+        print("Differences:", self.differences)   
 
 # Main Class
 class GameApp:
     def __init__(self, root):
         self.root = root
         self.processor = ImageProcessor()
-        self.found_marks = []
 
         # game state tracking
         self.found_differences = []
