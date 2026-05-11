@@ -43,6 +43,14 @@ class ImageProcessor:
 
         return x1, y1, x2, y2
 
+    def is_overlapping(self, x, y, size):
+        for old_x, old_y in self.differences:
+
+            if abs(x - old_x) < size * 3 and abs(y - old_y) < size * 3:
+                return True
+
+        return False
+
     def add_colour_patch(self, x, y, size):
         x1, y1, x2, y2 = self.get_region(x, y, size)
 
@@ -75,24 +83,31 @@ class ImageProcessor:
         size = 20
         alteration_types = ["colour", "blur", "invert"]
 
-        for i in range(5):
+        attempts = 0
+
+        while len(self.differences) < 5 and attempts < 100:
+            attempts += 1
+
             x = random.randint(size, width - size)
             y = random.randint(size, height - size)
 
-            self.differences.append((x, y))
+            if not self.is_overlapping(x, y, size):
 
-            alteration = random.choice(alteration_types)
+                self.differences.append((x, y))
 
-            if alteration == "colour":
-                self.add_colour_patch(x, y, size)
+                alteration = random.choice(alteration_types)
 
-            elif alteration == "blur":
-                self.add_blur_patch(x, y, size)
+                if alteration == "colour":
+                    self.add_colour_patch(x, y, size)
 
-            elif alteration == "invert":
-                self.add_invert_patch(x, y, size)
+                elif alteration == "blur":
+                    self.add_blur_patch(x, y, size)
 
-        print("Differences:", self.differences)   
+                elif alteration == "invert":
+                    self.add_invert_patch(x, y, size)
+
+        print("Differences:", self.differences)
+         
 
 # Main Class
 class GameApp:
