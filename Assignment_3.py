@@ -217,16 +217,23 @@ class GameApp:
 
     # Load image 
     def load_image(self):
-        
-        file_path = filedialog.askopenfilename()
+    
+        file_path = filedialog.askopenfilename(
+            title="Select an Image",
+            filetypes=[
+                ("Image Files", "*.jpg *.jpeg *.png *.bmp"),
+                ("All Files", "*.*")
+            ]
+        )
+ 
         print(file_path)
 
         if file_path:
             success = self.processor.load_image(file_path)
-
+ 
             if success:  
                 self.image_loaded = True
-                
+            
                 # reset game state
                 self.found_differences = []
                 self.mistakes = 0
@@ -239,12 +246,20 @@ class GameApp:
                 self.label_mistakes.config(
                     text="Mistakes: 0 / 3"
                 )
-                
+            
                 self.processor.generate_differences()
                 self.display_image()
+
                 # re-enable clicking for new game
                 self.canvas_modified.bind("<Button-1>", self.check_difference)
+
                 print("Image loaded and differences generated")
+
+            else:
+                messagebox.showerror(
+                    "Image Load Error",
+                    "The selected file could not be loaded. Please choose a JPG, JPEG, PNG or BMP image."
+                )
     
     def display_image(self):
 
