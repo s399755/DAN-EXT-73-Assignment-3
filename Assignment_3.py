@@ -14,6 +14,43 @@ import cv2
 import random
 from PIL import Image, ImageTk
 
+# marker parent class
+class DifferenceMarker:
+    def __init__(self, radius, thickness):
+        self.radius = radius
+        self.thickness = thickness
+
+    def draw(self, image, x, y):
+        pass
+
+# marker for found differences
+class FoundMarker(DifferenceMarker):
+    def __init__(self):
+        super().__init__(25, 3)
+
+    def draw(self, image, x, y):
+        cv2.circle(
+            image,
+            (x, y),
+            self.radius,
+            (0, 0, 255),
+            self.thickness
+        )
+
+# marker for revealed differences
+class RevealMarker(DifferenceMarker):
+    def __init__(self):
+        super().__init__(25, 3)
+
+    def draw(self, image, x, y):
+        cv2.circle(
+            image,
+            (x, y),
+            self.radius,
+            (255, 0, 0),
+            self.thickness
+        )
+        
 # image processor 
 class ImageProcessor:
     def __init__(self):
@@ -108,13 +145,16 @@ class ImageProcessor:
 
         print("Differences:", self.differences)
          
-
 # Main Class
 class GameApp:
     def __init__(self, root):
         self.root = root
         self.processor = ImageProcessor()
-
+        
+        # marker objects
+        self.found_marker = FoundMarker()
+        self.reveal_marker = RevealMarker()
+        
         # game state tracking
         self.found_differences = []
         self.mistakes = 0
@@ -235,15 +275,13 @@ class GameApp:
         )
     
     def draw_found_circle(self, x, y):
-        # red circle for found differences
-        cv2.circle(self.processor.original_image, (x, y), 25, (0, 0, 255), 3)
-        cv2.circle(self.processor.modified_image, (x, y), 25, (0, 0, 255), 3)
-     
+        self.found_marker.draw(self.processor.original_image, x, y)
+        self.found_marker.draw(self.processor.modified_image, x, y)
+        
     def draw_reveal_circle(self, x, y):
-        # blue circle for revealed differences
-        cv2.circle(self.processor.original_image, (x, y), 25, (255, 0, 0), 3)
-        cv2.circle(self.processor.modified_image, (x, y), 25, (255, 0, 0), 3)   
-
+        self.reveal_marker.draw(self.processor.original_image, x, y)
+        self.reveal_marker.draw(self.processor.modified_image, x, y)
+    
     def reveal_differences(self):
 
         for dx, dy in self.processor.differences:
@@ -258,7 +296,7 @@ class GameApp:
         )
 
         self.display_image()
-
+ 
         # disable further clicks
         self.canvas_modified.unbind("<Button-1>")
 
