@@ -69,3 +69,6 @@ Update 18
 
 Update 19
 - Updated visual markers so found differences show red circles and revealed differences show blue circles, with remaining counter updated after reveal.
+
+Update 20 
+- Added marker classes using inheritance and polymorphism to improve OOP structure for found and revealed differences.
