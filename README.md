@@ -72,3 +72,5 @@ Update 19
 
 Update 20 
 - Added marker classes using inheritance and polymorphism to improve OOP structure for found and revealed differences.
+
+Update 21 - Added safety checks to prevent gameplay actions before an image is loaded
