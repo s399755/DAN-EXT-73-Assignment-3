@@ -81,3 +81,6 @@ Update 22
 
 Update 23 
 - Increased window size and added canvas borders to improve side by side image display.
+
+Update 24 
+- Updated image loading with file type filtering and error handling for unsupported or unreadable image files.
