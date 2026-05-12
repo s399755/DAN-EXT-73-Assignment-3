@@ -163,7 +163,7 @@ class GameApp:
       
         # window setup
         self.root.title("Find the Differences")
-        self.root.geometry("800x600")
+        self.root.geometry("900x650")
 
         # Label
         self.label_info = tk.Label(root, text="Load an image to start")
@@ -190,12 +190,26 @@ class GameApp:
 
         # image frame
         self.frame_images = tk.Frame(root)
-        self.frame_images.pack()
+        self.frame_images.pack(pady=10)
 
-        self.canvas_original = tk.Canvas(self.frame_images, width=400, height=400, bg="grey")
+        self.canvas_original = tk.Canvas(
+            self.frame_images,
+            width=400,
+            height=400,
+            bg="grey",
+            highlightthickness=1,
+            highlightbackground="black"
+        )
         self.canvas_original.pack(side="left", padx=10)
 
-        self.canvas_modified = tk.Canvas(self.frame_images, width=400, height=400, bg="grey")
+        self.canvas_modified = tk.Canvas(
+            self.frame_images,
+            width=400,
+            height=400,
+            bg="grey",
+            highlightthickness=1,
+            highlightbackground="black"
+        )
         self.canvas_modified.pack(side="right", padx=10)
         
         # click detection
@@ -391,5 +405,6 @@ class GameApp:
 root = tk.Tk()
 app = GameApp(root)
 root.mainloop()
+
 
 
