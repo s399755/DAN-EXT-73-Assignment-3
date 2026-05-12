@@ -150,6 +150,7 @@ class GameApp:
     def __init__(self, root):
         self.root = root
         self.processor = ImageProcessor()
+        self.image_loaded = False
         
         # marker objects
         self.found_marker = FoundMarker()
@@ -209,7 +210,8 @@ class GameApp:
         if file_path:
             success = self.processor.load_image(file_path)
 
-            if success:
+            if success:  
+                self.image_loaded = True
                 
                 # reset game state
                 self.found_differences = []
@@ -283,6 +285,13 @@ class GameApp:
         self.reveal_marker.draw(self.processor.modified_image, x, y)
     
     def reveal_differences(self):
+        
+        if not self.image_loaded:
+            messagebox.showwarning(
+                "No Image Loaded",
+                "Please load an image before revealing differences."
+            )
+            return
 
         for dx, dy in self.processor.differences:
 
@@ -306,6 +315,13 @@ class GameApp:
         )
     
     def check_difference(self, event):
+        
+        if not self.image_loaded:
+            messagebox.showwarning(
+                "No Image Loaded",
+                "Please load an image before playing."
+            )
+            return
 
         # scale click position back to original image size
         image_width = self.processor.original_image.shape[1]
@@ -371,3 +387,4 @@ class GameApp:
 root = tk.Tk()
 app = GameApp(root)
 root.mainloop()
+
