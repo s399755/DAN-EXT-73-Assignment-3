@@ -78,3 +78,6 @@ Update 21
 
 Update 22 
 - Updated click logic so already found differences are recognised without increasing the mistake counter.
+
+Update 23 
+- Increased window size and added canvas borders to improve side by side image display.
