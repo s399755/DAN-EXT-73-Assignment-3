@@ -338,6 +338,8 @@ class GameApp:
 
             if abs(click_x - dx) < 20 and abs(click_y - dy) < 20:
 
+                hit = True
+
                 if (dx, dy) not in self.found_differences:
                     self.found_differences.append((dx, dy))
                     self.remaining -= 1
@@ -352,8 +354,6 @@ class GameApp:
                         text=f"Remaining: {self.remaining}"
                     )
 
-                    hit = True
-                    
                     if self.remaining == 0:
 
                         messagebox.showinfo(
@@ -363,6 +363,10 @@ class GameApp:
 
                         # disable further clicks
                         self.canvas_modified.unbind("<Button-1>")
+
+                else:
+                    print("Difference already found")
+
                 break
             
         if not hit:
@@ -387,4 +391,5 @@ class GameApp:
 root = tk.Tk()
 app = GameApp(root)
 root.mainloop()
+
 
