@@ -62,11 +62,9 @@ class ImageProcessor:
         self.original_image = cv2.imread(path)
 
         if self.original_image is None:
-            print("Error loading image")
             return False
 
         self.modified_image = self.original_image.copy()
-        print("Image copied for modification")
         return True
 
     def get_region(self, x, y, size):
@@ -142,8 +140,6 @@ class ImageProcessor:
 
                 elif alteration == "invert":
                     self.add_invert_patch(x, y, size)
-
-        print("Differences:", self.differences)
          
 # Main Class
 class GameApp:
@@ -225,8 +221,6 @@ class GameApp:
                 ("All Files", "*.*")
             ]
         )
- 
-        print(file_path)
 
         if file_path:
             success = self.processor.load_image(file_path)
@@ -256,8 +250,6 @@ class GameApp:
 
                 # re-enable clicking for new game
                 self.canvas_modified.bind("<Button-1>", self.check_difference)
-
-                print("Image loaded and differences generated")
 
             else:
                 messagebox.showerror(
@@ -367,8 +359,6 @@ class GameApp:
         click_x = int(event.x * image_width / 400)
         click_y = int(event.y * image_height / 400)
 
-        print("Clicked:", click_x, click_y)
-
         hit = False
 
         for dx, dy in self.processor.differences:
@@ -406,7 +396,7 @@ class GameApp:
                             "All differences found!"
                         )
 
-                         # disable further clicks
+                        # disable further clicks
                         self.canvas_modified.unbind("<Button-1>")
 
                 else:
@@ -446,6 +436,5 @@ class GameApp:
 root = tk.Tk()
 app = GameApp(root)
 root.mainloop()
-
 
 
