@@ -87,3 +87,6 @@ Update 24
 
 Update 25 
 - Improved on-screen feedback for correct clicks, duplicate clicks, reveal, win and game over states.
+
+Update 26 
+- Removed debugging print statements and cleaned minor formatting before final testing.
