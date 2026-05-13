@@ -246,6 +246,10 @@ class GameApp:
                 self.label_mistakes.config(
                     text="Mistakes: 0 / 3"
                 )
+                
+                self.label_info.config(
+                    text="Game started! Find all 5 differences."
+                )
             
                 self.processor.generate_differences()
                 self.display_image()
@@ -259,7 +263,7 @@ class GameApp:
                 messagebox.showerror(
                     "Image Load Error",
                     "The selected file could not be loaded. Please choose a JPG, JPEG, PNG or BMP image."
-                )
+            )
     
     def display_image(self):
 
@@ -332,6 +336,10 @@ class GameApp:
         self.label_remaining.config(
             text="Remaining: 0"
         )
+        
+        self.label_info.config(
+            text="Differences revealed. Load another image to play again."
+        )
 
         self.display_image()
  
@@ -382,19 +390,29 @@ class GameApp:
                     self.label_remaining.config(
                         text=f"Remaining: {self.remaining}"
                     )
+                    
+                    self.label_info.config(
+                        text="Correct! Difference found."
+                    )
 
                     if self.remaining == 0:
+
+                        self.label_info.config(
+                            text="You found all differences!"
+                        )
 
                         messagebox.showinfo(
                             "You Win",
                             "All differences found!"
                         )
 
-                        # disable further clicks
+                         # disable further clicks
                         self.canvas_modified.unbind("<Button-1>")
 
                 else:
-                    print("Difference already found")
+                    self.label_info.config(
+                        text="This difference has already been found."
+                    )
 
                 break
             
@@ -404,13 +422,21 @@ class GameApp:
                 text=f"Mistakes: {self.mistakes} / 3"
             )
             
-            print("Wrong guess")
-
+            self.label_info.config(
+                text="Wrong guess! Try again."
+            )
+            
             if self.mistakes >= 3:
 
+                found_count = len(self.found_differences)
+
+                self.label_info.config(
+                    text=f"Game over! You found {found_count} out of 5 differences."
+                )          
+
                 messagebox.showinfo(
-                    "Game Over",
-                    "Too many mistakes! Load a new image to try again."
+                   "Game Over",
+                   f"Too many mistakes! You found {found_count} out of 5 differences. Load a new image to try again."
                 )
 
                 # disable further clicks
