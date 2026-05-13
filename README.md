@@ -84,3 +84,6 @@ Update 23
 
 Update 24 
 - Updated image loading with file type filtering and error handling for unsupported or unreadable image files.
+
+Update 25 
+- Improved on-screen feedback for correct clicks, duplicate clicks, reveal, win and game over states.
