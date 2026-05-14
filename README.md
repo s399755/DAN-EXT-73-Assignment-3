@@ -90,3 +90,8 @@ Update 25
 
 Update 26 
 - Removed debugging print statements and cleaned minor formatting before final testing.
+
+Update 27 
+- Added a cumulative total score counter that tracks found differences across multiple loaded images.
+
+  
