@@ -94,4 +94,7 @@ Update 26
 Update 27 
 - Added a cumulative total score counter that tracks found differences across multiple loaded images.
 
+Update 28 
+- Updated difference generation so each loaded image uses colour, blur and invert alterations at least once.
+
   
