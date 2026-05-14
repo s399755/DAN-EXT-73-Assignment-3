@@ -97,4 +97,7 @@ Update 27
 Update 28 
 - Updated difference generation so each loaded image uses colour, blur and invert alterations at least once.
 
+Update 29 
+- Refined colour and blur alterations for better visibility and increased the image display area to make gameplay easier to view.
+
   
