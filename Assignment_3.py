@@ -116,30 +116,42 @@ class ImageProcessor:
         height, width, _ = self.modified_image.shape
 
         size = 20
+
+        # Ensure all three alteration types are used at least once
         alteration_types = ["colour", "blur", "invert"]
 
-        attempts = 0
+        # Add two more random alteration types to make exactly 5 differences
+        alteration_types.append(random.choice(["colour", "blur", "invert"]))
+        alteration_types.append(random.choice(["colour", "blur", "invert"]))
 
-        while len(self.differences) < 5 and attempts < 100:
-            attempts += 1
+        # Shuffle so the order is random each time
+        random.shuffle(alteration_types)
 
-            x = random.randint(size, width - size)
-            y = random.randint(size, height - size)
+        for alteration in alteration_types:
 
-            if not self.is_overlapping(x, y, size):
+            placed = False
+            attempts = 0
 
-                self.differences.append((x, y))
+            while not placed and attempts < 100:
+                attempts += 1
 
-                alteration = random.choice(alteration_types)
+                x = random.randint(size, width - size)
+                y = random.randint(size, height - size)
 
-                if alteration == "colour":
-                    self.add_colour_patch(x, y, size)
+                if not self.is_overlapping(x, y, size):
 
-                elif alteration == "blur":
-                    self.add_blur_patch(x, y, size)
+                    self.differences.append((x, y))
 
-                elif alteration == "invert":
-                    self.add_invert_patch(x, y, size)
+                    if alteration == "colour":
+                        self.add_colour_patch(x, y, size)
+
+                    elif alteration == "blur":
+                        self.add_blur_patch(x, y, size)
+
+                    elif alteration == "invert":
+                        self.add_invert_patch(x, y, size)
+
+                    placed = True
          
 # Main Class
 class GameApp:
@@ -445,5 +457,6 @@ class GameApp:
 root = tk.Tk()
 app = GameApp(root)
 root.mainloop()
+
 
 
