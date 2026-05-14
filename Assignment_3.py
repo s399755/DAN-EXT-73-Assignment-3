@@ -89,8 +89,19 @@ class ImageProcessor:
     def add_colour_patch(self, x, y, size):
         x1, y1, x2, y2 = self.get_region(x, y, size)
 
-        # yellow patch in BGR format
-        self.modified_image[y1:y2, x1:x2] = (0, 255, 255)
+        area = self.modified_image[y1:y2, x1:x2]
+
+        if area.size > 0:
+            yellow_patch = area.copy()
+            yellow_patch[:] = (0, 255, 255)
+
+            self.modified_image[y1:y2, x1:x2] = cv2.addWeighted(
+                area,
+                0.7,
+                yellow_patch,
+                0.3,
+                0
+            )
 
     def add_blur_patch(self, x, y, size):
         x1, y1, x2, y2 = self.get_region(x, y, size)
@@ -99,8 +110,32 @@ class ImageProcessor:
 
         if area.size > 0:
             blurred_area = cv2.GaussianBlur(area, (21, 21), 0)
-            self.modified_image[y1:y2, x1:x2] = blurred_area
 
+            # calculate average brightness of the selected patch
+            brightness = area.mean()
+
+            # if the area is light, darken slightly
+            if brightness > 170:
+                visible_blur = cv2.convertScaleAbs(
+                    blurred_area,
+                    alpha=0.98,
+                    beta=-8
+                )
+
+            # if the area is dark, lighten slightly
+            elif brightness < 80:
+                visible_blur = cv2.convertScaleAbs(
+                    blurred_area,
+                    alpha=1.02,
+                    beta=18
+                )
+
+            # if the area is already mid-tone, keep normal blur
+            else:
+                visible_blur = blurred_area
+
+            self.modified_image[y1:y2, x1:x2] = visible_blur
+            
     def add_invert_patch(self, x, y, size):
         x1, y1, x2, y2 = self.get_region(x, y, size)
 
@@ -172,7 +207,7 @@ class GameApp:
       
         # window setup
         self.root.title("Find the Differences")
-        self.root.geometry("900x650")
+        self.root.geometry("1200x850")
 
         # Label
         self.label_info = tk.Label(root, text="Load an image to start")
@@ -206,8 +241,8 @@ class GameApp:
 
         self.canvas_original = tk.Canvas(
             self.frame_images,
-            width=400,
-            height=400,
+            width=550,
+            height=550,
             bg="grey",
             highlightthickness=1,
             highlightbackground="black"
@@ -216,8 +251,8 @@ class GameApp:
 
         self.canvas_modified = tk.Canvas(
             self.frame_images,
-            width=400,
-            height=400,
+            width=550,
+            height=550,
             bg="grey",
             highlightthickness=1,
             highlightbackground="black"
@@ -290,8 +325,8 @@ class GameApp:
         modified = Image.fromarray(modified)
 
         # resize images
-        original = original.resize((400, 400))
-        modified = modified.resize((400, 400))
+        original = original.resize((550, 550))
+        modified = modified.resize((550, 550))
 
         # convert for tkinter
         self.tk_original = ImageTk.PhotoImage(original)
@@ -372,8 +407,8 @@ class GameApp:
         image_width = self.processor.original_image.shape[1]
         image_height = self.processor.original_image.shape[0]
 
-        click_x = int(event.x * image_width / 400)
-        click_y = int(event.y * image_height / 400)
+        click_x = int(event.x * image_width / 550)
+        click_y = int(event.y * image_height / 550)
 
         hit = False
 
@@ -457,6 +492,7 @@ class GameApp:
 root = tk.Tk()
 app = GameApp(root)
 root.mainloop()
+
 
 
 
