@@ -156,6 +156,7 @@ class GameApp:
         self.found_differences = []
         self.mistakes = 0
         self.remaining = 5
+        self.total_score = 0
       
         # window setup
         self.root.title("Find the Differences")
@@ -171,6 +172,9 @@ class GameApp:
 
         self.label_mistakes = tk.Label(root, text="Mistakes: 0 / 3")
         self.label_mistakes.pack()
+        
+        self.label_score = tk.Label(root, text="Total Score: 0")
+        self.label_score.pack()
 
         # Buttons
         self.btn_load = tk.Button(root, text="Load Image", command=self.load_image)
@@ -370,6 +374,7 @@ class GameApp:
                 if (dx, dy) not in self.found_differences:
                     self.found_differences.append((dx, dy))
                     self.remaining -= 1
+                    self.total_score += 1
 
                     # draw permanent visual marker
                     self.draw_found_circle(dx, dy)
@@ -379,6 +384,10 @@ class GameApp:
 
                     self.label_remaining.config(
                         text=f"Remaining: {self.remaining}"
+                    )
+                    
+                    self.label_score.config(
+                        text=f"Total Score: {self.total_score}"
                     )
                     
                     self.label_info.config(
