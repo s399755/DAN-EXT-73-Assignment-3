@@ -29,6 +29,16 @@ class FoundMarker(DifferenceMarker):
         super().__init__(25, 3)
 
     def draw(self, image, x, y):
+        # white outer circle improves visibility on dark backgrounds
+        cv2.circle(
+            image,
+            (x, y),
+            self.radius + 1,
+            (255, 255, 255),
+            self.thickness + 2
+        )
+
+        # red circle for found differences
         cv2.circle(
             image,
             (x, y),
@@ -43,6 +53,16 @@ class RevealMarker(DifferenceMarker):
         super().__init__(25, 3)
 
     def draw(self, image, x, y):
+        # white outer circle improves visibility on dark backgrounds
+        cv2.circle(
+            image,
+            (x, y),
+            self.radius + 1,
+            (255, 255, 255),
+            self.thickness + 2
+        )
+
+        # blue circle for revealed differences
         cv2.circle(
             image,
             (x, y),
@@ -114,23 +134,33 @@ class ImageProcessor:
             # calculate average brightness of the selected patch
             brightness = area.mean()
 
-            # if the area is light, darken slightly
+            # if the area is very light, blend in a slightly darker patch
             if brightness > 170:
-                visible_blur = cv2.convertScaleAbs(
+                grey_patch = blurred_area.copy()
+                grey_patch[:] = (180, 180, 180)
+
+                visible_blur = cv2.addWeighted(
                     blurred_area,
-                    alpha=0.98,
-                    beta=-8
+                    0.75,
+                    grey_patch,
+                    0.25,
+                    0
                 )
 
-            # if the area is dark, lighten slightly
+            # if the area is very dark, blend in a slightly lighter patch
             elif brightness < 80:
-                visible_blur = cv2.convertScaleAbs(
+                grey_patch = blurred_area.copy()
+                grey_patch[:] = (90, 90, 90)
+
+                visible_blur = cv2.addWeighted(
                     blurred_area,
-                    alpha=1.02,
-                    beta=18
+                    0.65,
+                    grey_patch,
+                    0.35,
+                    0
                 )
 
-            # if the area is already mid-tone, keep normal blur
+            # if the area is already mid-tone, normal blur is enough
             else:
                 visible_blur = blurred_area
 
@@ -143,7 +173,7 @@ class ImageProcessor:
 
         if area.size > 0:
             self.modified_image[y1:y2, x1:x2] = 255 - area
-
+ 
     # Generate differences
     def generate_differences(self):
         self.differences = []
@@ -306,7 +336,7 @@ class GameApp:
                 messagebox.showerror(
                     "Image Load Error",
                     "The selected file could not be loaded. Please choose a JPG, JPEG, PNG or BMP image."
-            )
+                )
     
     def display_image(self):
 
