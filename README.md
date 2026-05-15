@@ -18,11 +18,11 @@ This program creates a desktop application using Tkinter and OpenCV. It allows t
 - Modified image displayed on the right.
 - Exactly 5 random differences generated for each loaded image.
 - Difference regions are checked to reduce overlap.
-- Three image alteration types are used: colour patch, blur patch and invert patch.
+- Three image alteration types are used: blended colour patch, adaptive blur patch and invert patch.
 - Each image uses all three alteration types at least once.
 - Player clicks the modified image to find differences.
-- Found differences are marked with red circles.
-- Revealed differences are marked with blue circles.
+- Found differences are marked with red circles and contrast outlines.
+- Revealed differences are marked with blue circles and contrast outlines.
 - Remaining differences, mistakes and total score are displayed.
 - Maximum of 3 mistakes per image.
 - Reveal button shows all unfound differences.
@@ -58,8 +58,8 @@ The program uses multiple classes to organise the application:
 - GameApp controls the Tkinter interface, game state, scoring, clicks, reveal, win and game-over logic.
 - ImageProcessor loads images, copies the original image, generates differences and applies OpenCV image alterations.
 - DifferenceMarker is the parent marker class.
-- FoundMarker inherits from DifferenceMarker and draws red circles for found differences.
-- RevealMarker inherits from DifferenceMarker and draws blue circles for revealed differences.
+- FoundMarker inherits from DifferenceMarker and draws red circles with contrast outlines for found differences.
+- RevealMarker inherits from DifferenceMarker and draws blue circles with contrast outlines for revealed differences.
 The marker classes demonstrate inheritance and polymorphism because both child classes use the same draw() method with different marker colours.
 
 ## Testing Summary
@@ -171,5 +171,9 @@ Update 29
 
 Update 30
 - Added final README sections including current features, how to run the program, required libraries, OOP design summary, testing summary and display note.
+
+Update 31
+- Improved blur differences and marker contrast so differences remain visible on light and dark image areas.
+- Added final amendments to README ready for submission.
 
   
